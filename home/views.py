@@ -9,7 +9,7 @@ def index(request):
     return render(request, 'home/index.html', {})
 
 def signin(request):
-    pass
+    return render(request, 'home/sign-in.html', {})
 
 def signup(request):
     userForm = UserCreationForm()
