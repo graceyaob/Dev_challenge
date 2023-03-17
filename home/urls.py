@@ -7,4 +7,6 @@ urlpatterns = [
     path('sign-up/', views.signup, name="signup"),
     path('statistics/', views.statistics, name="stats"),
     path('forgot-password', views.forgot_password, name="password.recovery"),
+    path('stations-list', views.stations, name="stations"),
+    path('station/<str:station_name>/check', views.station_check, name="stations.check"),
 ]

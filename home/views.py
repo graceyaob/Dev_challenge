@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+import requests
 
 # Create your views here.
 
@@ -30,3 +31,20 @@ def statistics(request):
 def forgot_password(request):
     context = {}
     return render(request, 'home/sign-in.html', context)
+
+def stations(request):
+    url = "https://airqino-api.magentalab.it/getStations/Arezzo"
+    context = {
+        'stations': requests.get(url).json()
+    }
+    print(stations)
+    return render(request, 'home/stations.html', context)
+
+def station_check(request, station_name):
+    url = "https://airqino-api.magentalab.it/getCurrentValues/" + station_name
+    context = {
+        'station': requests.get(url).json()
+    }
+    print(context['station'])
+    return render(request, 'home/sensors.html', context)
+    
