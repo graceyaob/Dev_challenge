@@ -22,3 +22,11 @@ def signup(request):
         'form': userForm,
     }
     return render(request, 'home/sign-up.html', context)
+
+def statistics(request):
+    context = {}
+    return render(request, 'home/statistics.html', context)
+
+def forgot_password(request):
+    context = {}
+    return render(request, 'home/sign-in.html', context)
