@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 import requests
+from django.contrib import messages
 
 # Create your views here.
 
@@ -13,14 +14,15 @@ def signin(request):
     return render(request, 'home/sign-in.html', {})
 
 def signup(request):
-    userForm = UserCreationForm()
+    form = UserCreationForm()
 
     if request.method == 'POST':
-        userForm = UserCreationForm(request)
-        if userForm.is_valid():
-            userForm.save()
+        print("post")
+
+    print("after if post")
+
     context = {
-        'form': userForm,
+        'form': form,
     }
     return render(request, 'home/sign-up.html', context)
 
