@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import requests
 from django.contrib import messages
 
 # Create your views here.
 
+@login_required
 def index(request):
     # return HttpResponse('hello world !')
     return render(request, 'home/index.html', {})
@@ -14,15 +15,16 @@ def signin(request):
     return render(request, 'home/sign-in.html', {})
 
 def signup(request):
-    form = UserCreationForm()
 
     if request.method == 'POST':
-        print("post")
-
-    print("after if post")
+        data = request.POST
+        email, username, password = data.get("email"), data.get("username"), data.get("password")
+        
+        User.objects.create_user(username, email, password)
+        return redirect('home')
 
     context = {
-        'form': form,
+        'form': None,
     }
     return render(request, 'home/sign-up.html', context)
 
@@ -42,6 +44,7 @@ def stations(request):
     print(stations)
     return render(request, 'home/stations.html', context)
 
+@login_required
 def station_check(request, station_name):
     url = "https://airqino-api.magentalab.it/getCurrentValues/" + station_name
     context = {
