@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import requests
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -12,6 +13,12 @@ def index(request):
     return render(request, 'home/index.html', {})
 
 def signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request = request, username=username, password=password)
+        if user is not None:
+            login(request, user)
     return render(request, 'home/sign-in.html', {})
 
 def signup(request):
@@ -27,6 +34,10 @@ def signup(request):
         'form': None,
     }
     return render(request, 'home/sign-up.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('signin')
 
 def statistics(request):
     context = {}
