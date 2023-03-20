@@ -13,21 +13,30 @@ def index(request):
     return render(request, 'home/index.html', {})
 
 def signin(request):
+    if request.user.is_authenticated: 
+        return redirect('stations')
+    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request = request, username=username, password=password)
         if user is not None:
             login(request, user)
+            return redirect('stations')
     return render(request, 'home/sign-in.html', {})
 
 def signup(request):
-
+    if request.user.is_authenticated: 
+        return redirect('stations')
+    
     if request.method == 'POST':
         data = request.POST
         email, username, password = data.get("email"), data.get("username"), data.get("password")
-        
         User.objects.create_user(username, email, password)
+        user = authenticate(request = request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('stations')
         return redirect('home')
 
     context = {
