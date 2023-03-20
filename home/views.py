@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import requests
+from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -61,7 +62,6 @@ def stations(request):
     context = {
         'stations': requests.get(url).json()
     }
-    print(stations)
     return render(request, 'home/stations.html', context)
 
 @login_required
@@ -70,6 +70,24 @@ def station_check(request, station_name):
     context = {
         'station': requests.get(url).json()
     }
-    print(context['station'])
     return render(request, 'home/sensors.html', context)
     
+def periode(request):
+
+    url = "https://airqino-api.magentalab.it/getStations/Arezzo"
+    stations = requests.get(url).json()
+
+    feedback = None
+
+    if request.method == 'POST':
+        start_date = datetime.strptime(request.POST['start_date'], '%Y-%m-%d').date()
+        end_date = datetime.strptime(request.POST['end_date'], '%Y-%m-%d').date()
+        station_name = request.POST['station_name']
+
+        url = f"https://airqino-api.magentalab.it/{station_name}/{start_date}/{end_date}"
+        print(url)
+
+    context = {
+        'stations': stations
+    }
+    return render(request, 'home/periode.html', context)
