@@ -1,5 +1,17 @@
-## Tâches à effectuer
+# Installation
 
-- Mise en place du système d'authentification
-- Récuperation des données via API(data354)
-- Mise en place de l'interface permettant à l'utilisateur la consultation des données
+1. Créer un environnement virtuel
+```bash
+python3 -m venv .env
+```
+
+2. Installer toutes les dependances nécessaires 
+```bash 
+source .en v/bin/activate
+pip install -r requirements.txt
+```
+
+3. Enjoy app ! Lancer l'application en executant la commande 
+```bash
+./manage.py runserver
+```
