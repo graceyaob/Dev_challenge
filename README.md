@@ -7,7 +7,7 @@ python3 -m venv .env
 
 2. Installer toutes les dependances nécessaires 
 ```bash 
-source .en v/bin/activate
+source .env/bin/activate
 pip install -r requirements.txt
 ```
 
